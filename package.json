@@ -27,6 +27,7 @@
   ],
   "scripts": {
     "install": "node-gyp-build",
+    "postinstall": "node-gyp-build",
     "prepack": "yarn rebuild",
     "rebuild": "yarn clean && yarn run install && yarn build:js && yarn test",
     "clean": "rimraf build lib",
