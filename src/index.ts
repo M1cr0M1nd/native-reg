@@ -7,7 +7,7 @@ const types = require('util').types || {
 };
 
 const isWindows = process.platform === 'win32';
-const native = isWindows && require('node-gyp-build')(__dirname + "/..");
+const native = isWindows && require("../build/Release/reg.node");
 
 // from winreg.h
 export enum HKEY {
@@ -31,6 +31,7 @@ export enum CreateKeyOptions {
 }
 
 export enum OpenKeyOptions {
+  NONE = 0,
   OPEN_LINK = 8,
 }
 
@@ -181,7 +182,7 @@ export function getValueRaw(
   hkey: HKEY,
   subKey: string | null,
   valueName: string | null,
-  flags: GetValueFlags = 0,
+  flags: GetValueFlags = GetValueFlags.RT_ANY,
 ): Value | null {
   assert(isWindows);
   assert(isHKEY(hkey));
@@ -383,7 +384,7 @@ export function getValue(
   hkey: HKEY,
   subKey: string | null,
   valueName: string | null,
-  flags: GetValueFlags = 0,
+  flags: GetValueFlags = GetValueFlags.RT_ANY,
 ): ParsedValue | null {
   return parseValue(getValueRaw(hkey, subKey, valueName, flags));
 }
